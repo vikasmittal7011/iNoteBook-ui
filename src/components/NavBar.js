@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function NavBar() {
@@ -7,7 +7,17 @@ export default function NavBar() {
   const logoutUser = () => {
     localStorage.removeItem("token");
     navigate("/login");
+    setRef();
   };
+
+  const btnRef = useRef(null);
+
+  const setRef = () => {
+    if (window.innerWidth < 699) {
+      btnRef.current.click();
+    }
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -16,6 +26,7 @@ export default function NavBar() {
             iNoteBook
           </Link>
           <button
+            ref={btnRef}
             className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
@@ -35,6 +46,9 @@ export default function NavBar() {
                   } `}
                   aria-current="page"
                   to="/"
+                  onClick={() => {
+                    setRef();
+                  }}
                 >
                   Home
                 </Link>
